@@ -9,10 +9,10 @@ require_once './includes/header.php'
     <div class="row">
         <div class="col-12">
             <div class="table-responsive">
+                <h2 class="text-center">ID Kompor <?php echo 1 ?> </h2>
                 <table class="table table-bordered table-hover table-stripped align-middle">
                     <thead class="text-center">
                         <tr>
-                            <th>ID Kompor</th>
                             <th>Voltage</th>
                             <th>Current</th>
                             <th>Power</th>
@@ -24,9 +24,6 @@ require_once './includes/header.php'
                     </thead>
                     <tbody>
                         <tr>
-                            <td>
-                                <a href="details.php">1</a>
-                            </td>
                             <td>
                                 225
                             </td>
