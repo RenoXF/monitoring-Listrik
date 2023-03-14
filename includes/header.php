@@ -19,7 +19,7 @@ defined('__IN_SCRIPT__') || exit(1);
     <header class="mb-4">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom border-info">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Monitoring PLN</a>
+                <a class="navbar-brand" href="../index.php">Monitoring PLN</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
