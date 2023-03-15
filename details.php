@@ -1,7 +1,14 @@
 <?php
 define('__IN_SCRIPT__', true);
 
-require_once './includes/header.php'; ?>
+require_once './includes/header.php';
+require './helpers/get.php';
+
+if (get('ID_Kompor') === null) {
+    echo 'ID_Kompor harus disertakan !';
+    exit(0);
+}
+?>
 <main class="container">
     <div class="row">
         <div class="col-md-6">

@@ -3,16 +3,7 @@
 define('__IN_SCRIPT__', true);
 
 require './includes/connection.php';
-
-function get($key, $default = null)
-{
-    $val = $_GET[$key] ?? $default;
-
-    $val = htmlspecialchars_decode($val);
-    $val = strip_tags($val);
-
-    return $val;
-}
+require './helpers/get.php';
 
 $idKompor = get('ID_Kompor', 0);
 $date = date('Y-m-d H:i:s');
