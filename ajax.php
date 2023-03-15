@@ -50,7 +50,7 @@ try {
 
     $stmt->execute([$idKompor, $startDate, $endDate]);
 
-    $results = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $results = $stmt->get_result()?->fetch_all(MYSQLI_ASSOC) ?? [];
 
     $values = [];
     $keys = [];
