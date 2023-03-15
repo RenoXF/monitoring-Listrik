@@ -37,7 +37,7 @@ if (in_array($type, [
 }
 
 try {
-    $startDate = date('Y-m-d H', strtotime('8 Hours ago')) . ':00:00';
+    $startDate = date('Y-m-d H', strtotime('1 Hours ago')) . ':00:00';
     $endDate = date('Y-m-d H:i:s');
     $stmt = $mysqli->prepare("SELECT
         `$type`,
