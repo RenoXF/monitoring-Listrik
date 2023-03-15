@@ -1,1 +1,2 @@
 *.Identifier
+config/database.php
