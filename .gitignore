@@ -1,2 +1,3 @@
 *.Identifier
 config/database.php
+.htaccess
