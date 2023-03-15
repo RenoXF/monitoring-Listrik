@@ -2,8 +2,11 @@
 
 define('__IN_SCRIPT__', true);
 
-require_once './includes/header.php'
+require_once './includes/header.php';
 
+$komporSql = $mysqli->query("SELECT * FROM `meter` GROUP BY `meter`.`ID_Kompor` ORDER BY `meter`.`ID` DESC");
+
+$kompor = $komporSql->fetch_all(MYSQLI_ASSOC);
 ?>
 <main class="container">
     <div class="row">
@@ -23,22 +26,24 @@ require_once './includes/header.php'
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($kompor as $item) { ?>
                         <tr>
                             <td>
-                                <a href="details.php">1</a>
+                                <a href="details.php"><?php echo $item['ID_Kompor'];?></a>
                             </td>
                             <td>
-                                225
+                            <?php echo $item['Voltage'];?>
                             </td>
-                            <td>0.12</td>
-                            <td>34.5</td>
-                            <td>2.5</td>
-                            <td>50</td>
-                            <td>0.76</td>
+                            <td><?php echo $item['Current'];?></td>
+                            <td><?php echo $item['Power'];?></td>
+                            <td><?php echo $item['Energy'];?></td>
+                            <td><?php echo $item['Frequency'];?></td>
+                            <td><?php echo $item['PF'];?></td>
                             <td class="text-end">
-                                2020-05-01 08:26:36
+                            <?php echo $item['Date'];?>
                             </td>
                         </tr>
+                        <?php }?>
                     </tbody>
                 </table>
             </div>
