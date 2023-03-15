@@ -9,5 +9,5 @@ function get($key, $default = null)
     $val = htmlspecialchars_decode($val);
     $val = strip_tags($val);
 
-    return $val;
+    return empty($val) ? $default : $val;
 }
