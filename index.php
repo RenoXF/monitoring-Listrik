@@ -29,7 +29,7 @@ $kompor = $komporSql->fetch_all(MYSQLI_ASSOC);
                         <?php foreach ($kompor as $item) { ?>
                         <tr>
                             <td>
-                                <a href="details.php"><?php echo $item['ID_Kompor'];?></a>
+                                <a href="details.php?ID_Kompor=<?php echo $item['ID_Kompor'];?>"><?php echo $item['ID_Kompor'];?></a>
                             </td>
                             <td>
                             <?php echo $item['Voltage'];?>
