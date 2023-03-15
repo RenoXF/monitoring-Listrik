@@ -1,6 +1,9 @@
 <?php
 
 defined('__IN_SCRIPT__') || exit(1);
+
+require_once 'connection.php';
+
 ?><!DOCTYPE html>
 <html lang="en">
 
