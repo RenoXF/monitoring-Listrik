@@ -50,7 +50,7 @@ try {
 
     $results = $stmt->get_result()->fetch_all(MYSQLI_ASSOC) ?? [];
 
-    rsort($results);
+    $results = array_reverse($results, true);
 
     $values = [];
     $keys = [];
