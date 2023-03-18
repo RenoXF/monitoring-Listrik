@@ -44,7 +44,7 @@ try {
             `meter`
         WHERE
             `ID_Kompor` = ?
-        ORDER BY `id` ASC LIMIT 60");
+        ORDER BY `id` ASC LIMIT 15");
 
     $stmt->execute([$idKompor]);
 
