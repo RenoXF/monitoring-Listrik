@@ -10,25 +10,29 @@ if (get('ID_Kompor') === null) {
 }
 ?>
 <main class="container">
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-md-6">
-            <canvas id="voltageChart" height="180px"></canvas>
+            <canvas id="voltageChart" height="150px"></canvas>
         </div>
         <div class="col-md-6">
-            <canvas id="currentChart" height="250px"></canvas>
+            <canvas id="currentChart" height="150px"></canvas>
         </div>
-        <!-- <div class="col-md-6">
-            <canvas id="powerChart" height="250px"></canvas>
+    </div>
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <canvas id="powerChart" height="150px"></canvas>
         </div>
         <div class="col-md-6">
-            <canvas id="powerFactorChart" height="250px"></canvas>
+            <canvas id="powerFactorChart" height="150px"></canvas>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <canvas id="eneryChart" height="150px"></canvas>
         </div>
         <div class="col-md-6">
-            <canvas id="eneryChart" height="250px"></canvas>
+            <canvas id="frequencyChart" height="150px"></canvas>
         </div>
-        <div class="col-md-6">
-            <canvas id="frequencyChart" height="250px"></canvas>
-        </div> -->
     </div>
 </main>
 <script>
@@ -71,19 +75,23 @@ if (get('ID_Kompor') === null) {
                 document.getElementById('powerChart')
             ],
             [
-                'Power',
+                'PF',
                 document.getElementById('powerFactorChart')
             ],
             [
-                'Voltage',
-                document.getElementById('voltageChart')
+                'Energy',
+                document.getElementById('eneryChart')
             ],
             [
-                'Voltage',
-                document.getElementById('voltageChart')
+                'Frequency',
+                document.getElementById('frequencyChart')
             ],
-        ]
-        graph('Voltage', document.getElementById('voltageChart'));
+        ];
+
+        graphs.forEach((item) => {
+            graph(item[0], item[1]);
+        })
+
     });
 </script>
 <?php require_once './includes/footer.php';
