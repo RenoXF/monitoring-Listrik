@@ -44,11 +44,13 @@ try {
             `meter`
         WHERE
             `ID_Kompor` = ?
-        ORDER BY `id` ASC LIMIT 15");
+        ORDER BY `id` DESC LIMIT 15");
 
     $stmt->execute([$idKompor]);
 
     $results = $stmt->get_result()->fetch_all(MYSQLI_ASSOC) ?? [];
+
+    rsort($results);
 
     $values = [];
     $keys = [];
