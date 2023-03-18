@@ -37,18 +37,16 @@ if (in_array($type, [
 }
 
 try {
-    $startDate = date('Y-m-d H', strtotime('1 Hours ago')) . ':00:00';
-    $endDate = date('Y-m-d H:i:s');
     $stmt = $mysqli->prepare("SELECT
         `$type`,
         `Date`
         FROM
             `meter`
         WHERE
-            `ID_Kompor` = ? AND
-            `Date` BETWEEN ? AND ?");
+            `ID_Kompor` = ?
+        ORDER BY `id` DESC LIMIT 60");
 
-    $stmt->execute([$idKompor, $startDate, $endDate]);
+    $stmt->execute([$idKompor]);
 
     $results = $stmt->get_result()?->fetch_all(MYSQLI_ASSOC) ?? [];
 
