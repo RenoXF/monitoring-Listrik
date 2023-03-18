@@ -36,27 +36,27 @@ if (get('ID_Kompor') === null) {
     </div>
 </main>
 <script>
-    const Voltage =  new Chart(document.getElementById('voltageChart'), {
+    const Voltage = new Chart(document.getElementById('voltageChart'), {
         type: 'line',
         data: {},
     })
-    const Current =  new Chart(document.getElementById('currentChart'), {
+    const Current = new Chart(document.getElementById('currentChart'), {
         type: 'line',
         data: {},
     })
-    const Power =  new Chart(document.getElementById('powerChart'), {
+    const Power = new Chart(document.getElementById('powerChart'), {
         type: 'line',
         data: {},
     })
-    const PowerFactor =  new Chart(document.getElementById('powerFactorChart'), {
+    const PowerFactor = new Chart(document.getElementById('powerFactorChart'), {
         type: 'line',
         data: {},
     })
-    const Energy =  new Chart(document.getElementById('eneryChart'), {
+    const Energy = new Chart(document.getElementById('eneryChart'), {
         type: 'line',
         data: {},
     })
-    const Frequency =  new Chart(document.getElementById('frequencyChart'), {
+    const Frequency = new Chart(document.getElementById('frequencyChart'), {
         type: 'line',
         data: {},
     })
@@ -69,8 +69,7 @@ if (get('ID_Kompor') === null) {
                 type: type
             },
             dataType: "json",
-            success: function (res, textStatus, jqXHR)
-            {
+            success: function(res, textStatus, jqXHR) {
                 chart.data = {
                     labels: res.keys,
                     datasets: [{
@@ -86,6 +85,7 @@ if (get('ID_Kompor') === null) {
     }
 
     function getAllData() {
+        console.log(1)
         getData(Voltage, 'Voltage')
         getData(Current, 'Current')
         getData(Power, 'Power')
@@ -95,12 +95,17 @@ if (get('ID_Kompor') === null) {
     }
 
     $(document).ready(() => {
-        // Initiate Data
-        getAllData();
+        getAllData()
 
-        setInterval(() => {
-            getAllData()
-        }, 60000)
     })
+
+    var now = new Date();
+    var delay = 30000 - (now.getSeconds() * 1000) - now.getMilliseconds();
+    setTimeout(function() {
+        getAllData();
+        setInterval(function() {
+            getAllData()
+        }, 30000);
+    }, delay);
 </script>
 <?php require_once './includes/footer.php';
