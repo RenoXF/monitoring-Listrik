@@ -48,7 +48,7 @@ try {
 
     $stmt->execute([$idKompor]);
 
-    $results = $stmt->get_result()?->fetch_all(MYSQLI_ASSOC) ?? [];
+    $results = $stmt->get_result()->fetch_all(MYSQLI_ASSOC) ?? [];
 
     $values = [];
     $keys = [];
