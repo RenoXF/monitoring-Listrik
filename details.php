@@ -80,7 +80,8 @@ if (get('ID_Kompor') === null) {
                     }]
                 };
                 chart.update('none');
-            }
+            },
+            timeout: 60000 // sets timeout to 60 seconds
         });
     }
 
