@@ -50,7 +50,7 @@ try {
 
     $results = $stmt->get_result()->fetch_all(MYSQLI_ASSOC) ?? [];
 
-    $results = array_reverse($results, true);
+    $results = array_reverse($results);
 
     $values = [];
     $keys = [];
