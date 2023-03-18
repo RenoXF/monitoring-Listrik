@@ -36,62 +36,71 @@ if (get('ID_Kompor') === null) {
     </div>
 </main>
 <script>
-    async function graph(type, context) {
-        const res = await $.ajax({
+    const Voltage =  new Chart(document.getElementById('voltageChart'), {
+        type: 'line',
+        data: {},
+    })
+    const Current =  new Chart(document.getElementById('currentChart'), {
+        type: 'line',
+        data: {},
+    })
+    const Power =  new Chart(document.getElementById('powerChart'), {
+        type: 'line',
+        data: {},
+    })
+    const PowerFactor =  new Chart(document.getElementById('powerFactorChart'), {
+        type: 'line',
+        data: {},
+    })
+    const Energy =  new Chart(document.getElementById('eneryChart'), {
+        type: 'line',
+        data: {},
+    })
+    const Frequency =  new Chart(document.getElementById('frequencyChart'), {
+        type: 'line',
+        data: {},
+    })
+
+    function getData(chart, type) {
+        $.ajax({
             url: 'ajax.php',
             data: {
                 ID_Kompor: '<?php echo get('ID_Kompor'); ?>',
                 type: type
             },
+            dataType: "json",
+            success: function (res, textStatus, jqXHR)
+            {
+                chart.data = {
+                    labels: res.keys,
+                    datasets: [{
+                        label: type,
+                        data: res.values,
+                        borderWidth: 1,
+                        fill: false,
+                    }]
+                };
+                chart.update('none');
+            }
         });
+    }
 
-        new Chart(context, {
-            type: 'line',
-            data: {
-                labels: res.keys,
-                datasets: [{
-                    label: type,
-                    data: res.values,
-                    borderWidth: 1,
-                    fill: false,
-                }]
-            },
-
-        })
+    function getAllData() {
+        getData(Voltage, 'Voltage')
+        getData(Current, 'Current')
+        getData(Power, 'Power')
+        getData(PowerFactor, 'PF')
+        getData(Energy, 'Energy')
+        getData(Frequency, 'Frequency')
     }
 
     $(document).ready(() => {
-        const graphs = [
-            [
-                'Voltage',
-                document.getElementById('voltageChart')
-            ],
-            [
-                'Current',
-                document.getElementById('currentChart')
-            ],
-            [
-                'Power',
-                document.getElementById('powerChart')
-            ],
-            [
-                'PF',
-                document.getElementById('powerFactorChart')
-            ],
-            [
-                'Energy',
-                document.getElementById('eneryChart')
-            ],
-            [
-                'Frequency',
-                document.getElementById('frequencyChart')
-            ],
-        ];
+        // Initiate Data
+        getAllData();
 
-        graphs.forEach((item) => {
-            graph(item[0], item[1]);
-        })
-
-    });
+        setInterval(() => {
+            getAllData()
+        }, 60000)
+    })
 </script>
 <?php require_once './includes/footer.php';
