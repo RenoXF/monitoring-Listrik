@@ -76,29 +76,38 @@ $result = $stmt->get_result()->fetch_assoc() ?? [];
     </div>
 </main>
 <script>
+    const options = {
+    };
+
     const Voltage = new Chart(document.getElementById('voltageChart'), {
         type: 'line',
         data: {},
+        options: options
     })
     const Current = new Chart(document.getElementById('currentChart'), {
         type: 'line',
         data: {},
+        options: options
     })
     const Power = new Chart(document.getElementById('powerChart'), {
         type: 'line',
         data: {},
+        options: options
     })
     const PowerFactor = new Chart(document.getElementById('powerFactorChart'), {
         type: 'line',
         data: {},
+        options: options
     })
     const Energy = new Chart(document.getElementById('eneryChart'), {
         type: 'line',
         data: {},
+        options: options
     })
     const Frequency = new Chart(document.getElementById('frequencyChart'), {
         type: 'line',
         data: {},
+        options: options
     })
 
     function getData(chart, type) {
@@ -110,6 +119,48 @@ $result = $stmt->get_result()->fetch_assoc() ?? [];
             },
             dataType: "json",
             success: function(res, textStatus, jqXHR) {
+                let backgroundColor = '#36a2eb'
+                let borderColor = '#36a2eb'
+                let color = '#36a2eb';
+
+                switch (type) {
+                    case 'Voltage':
+                        backgroundColor = '#5145A7'
+                        borderColor = '#5145A7'
+                        color = '#5145A7'
+                        break;
+
+                    case 'Current':
+                        backgroundColor = '#3DAF63'
+                        borderColor = '#3DAF63'
+                        color = '#3DAF63'
+                        break;
+
+                    case 'Power':
+                        backgroundColor = '#FE9008'
+                        borderColor = '#FE9008'
+                        color = '#FE9008'
+                        break;
+
+                    case 'PF':
+                        backgroundColor = '#8A5487'
+                        borderColor = '#8A5487'
+                        color = '#8A5487'
+                        break;
+
+                    case 'Energy':
+                        backgroundColor = '#3549D1'
+                        borderColor = '#3549D1'
+                        color = '#3549D1'
+                        break;
+
+                    case 'Frequency':
+                        backgroundColor = '#25AD92'
+                        borderColor = '#25AD92'
+                        color = '#25AD92'
+                        break;
+                }
+
                 chart.data = {
                     labels: res.keys,
                     datasets: [{
@@ -117,6 +168,9 @@ $result = $stmt->get_result()->fetch_assoc() ?? [];
                         data: res.values,
                         borderWidth: 1,
                         fill: false,
+                        backgroundColor: backgroundColor,
+                        color: color,
+                        borderColor: borderColor
                     }]
                 };
                 chart.update('none');
