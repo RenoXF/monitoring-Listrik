@@ -8,8 +8,48 @@ if (get('ID_Kompor') === null) {
     echo 'ID_Kompor harus disertakan !';
     exit(0);
 }
+
+$stmt = $mysqli->prepare("SELECT
+        *
+    FROM
+        `meter`
+    WHERE
+        `ID_Kompor` = ?
+    ORDER BY `id` DESC LIMIT 1");
+
+$stmt->execute([get('ID_Kompor')]);
+
+$result = $stmt->get_result()->fetch_assoc() ?? [];
+
 ?>
 <main class="container">
+    <div class="mb-5">
+        <div class="d-flex justify-content-evenly align-items-center">
+            <div class="align-middle">
+                <table class="table table-borderless">
+                    <tr>
+                        <td>ID Kompor</td>
+                        <td>:</td>
+                        <td><?php echo $result['ID_Kompor'] ?></td>
+                    </tr>
+                    <tr>
+                        <td>Stan</td>
+                        <td>:</td>
+                        <td><?php echo '-' ?></td>
+                    </tr>
+                </table>
+                <a href="" class="btn btn-info text-white" role="button">Filter by Date</a>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="mx-2 form-label my-0 d-inline-block">Status:</span>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    </div>
     <div class="row mb-5">
         <div class="col-md-6">
             <canvas id="voltageChart" height="150px"></canvas>
