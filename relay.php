@@ -7,9 +7,33 @@ require './helpers/get.php';
 
 $idKompor = get('ID_Kompor');
 
+if (isset($_POST['status']) && isset($_POST['ID_Kompor'])) {
+    header("Content-Type: application/json");
+
+    try {
+        $stmt = $mysqli->prepare("REPLACE INTO `statusrelay` (`ID_Kompor`, `Stat`) VALUES (?, ?)");
+        $stmt->execute([
+            $_POST['ID_Kompor'],
+            $_POST['status'],
+        ]);
+
+    } catch (\Throwable $th) {
+        echo json_encode([
+            'message' => $th->getMessage()
+        ]);
+        exit(1);
+    }
+
+    echo json_encode([
+        'Stat' => $_POST['status'],
+    ]);
+    exit(0);
+}
+
 if ($idKompor === null) {
     exit(0);
 }
+
 
 try {
     $stmt = $mysqli->prepare("SELECT
