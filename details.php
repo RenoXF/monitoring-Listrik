@@ -226,6 +226,7 @@ $result = $stmt->get_result()->fetch_assoc() ?? [];
                 method: 'post',
                 data: {
                     status: status,
+                    ID_Kompor: '<?php echo $idKompor; ?>',
                 }
             })
         })
