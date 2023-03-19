@@ -4,10 +4,37 @@ define('__IN_SCRIPT__', true);
 require_once './includes/header.php';
 require './helpers/get.php';
 
-if (get('ID_Kompor') === null) {
+$idKompor = get('ID_Kompor');
+
+if ($idKompor === null) {
     echo 'ID_Kompor harus disertakan !';
     exit(0);
 }
+
+try {
+    $stmt = $mysqli->prepare("SELECT
+        *
+    FROM
+        `statusrelay`
+    WHERE
+        `ID_Kompor` = ?
+    ORDER BY `id` DESC LIMIT 1");
+
+    $stmt->execute([$idKompor]);
+
+    $result = $stmt->get_result()->fetch_assoc() ?? [];
+    $relayStatus = $result['Stat'] ?? null;
+
+    if (empty($result) || $relayStatus === null) {
+        $relayStatus = '1';
+        $relayStmt = $mysqli->prepare("INSERT INTO `statusrelay` (`ID_Kompor`, `Stat`) VALUES (?, ?)");
+        $relayStmt->execute([$idKompor, $relayStatus]);
+    }
+} catch (\Throwable $th) {
+    $th->getMessage();
+    exit(0);
+}
+
 
 $stmt = $mysqli->prepare("SELECT
         *
@@ -17,7 +44,7 @@ $stmt = $mysqli->prepare("SELECT
         `ID_Kompor` = ?
     ORDER BY `id` DESC LIMIT 1");
 
-$stmt->execute([get('ID_Kompor')]);
+$stmt->execute([$idKompor]);
 
 $result = $stmt->get_result()->fetch_assoc() ?? [];
 
@@ -43,7 +70,7 @@ $result = $stmt->get_result()->fetch_assoc() ?? [];
             <div class="d-flex align-items-center">
                 <span class="mx-2 form-label my-0 d-inline-block">Status:</span>
                 <label class="switch">
-                    <input type="checkbox">
+                    <input type="checkbox" <?php echo ((string) $relayStatus) === '1' ? 'checked': ''?> id="relaySwitch">
                     <span class="slider round"></span>
                 </label>
             </div>
@@ -114,7 +141,7 @@ $result = $stmt->get_result()->fetch_assoc() ?? [];
         $.ajax({
             url: 'ajax.php',
             data: {
-                ID_Kompor: '<?php echo get('ID_Kompor'); ?>',
+                ID_Kompor: '<?php echo $idKompor; ?>',
                 type: type
             },
             dataType: "json",
@@ -191,7 +218,17 @@ $result = $stmt->get_result()->fetch_assoc() ?? [];
 
     $(document).ready(() => {
         getAllData()
+        $('#relaySwitch').on('change', (e) => {
+            const status = $('#relaySwitch').is(':checked') ? '1' : '0'
 
+            $.ajax({
+                url: 'relay.php',
+                method: 'post',
+                data: {
+                    status: status,
+                }
+            })
+        })
     })
 
     var now = new Date();
