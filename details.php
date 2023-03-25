@@ -65,17 +65,16 @@ $result = $stmt->get_result()->fetch_assoc() ?? [];
                         <td><?php echo '-' ?></td>
                     </tr>
                 </table>
-                <a href="" class="btn btn-info text-white" role="button">Filter by Date</a>
+                <a href="filter.php?ID_Kompor=<?php echo $result['ID_Kompor'] ?>" class="btn btn-info text-white" role="button">Filter by Date</a>
             </div>
             <div class="d-flex align-items-center">
                 <span class="mx-2 form-label my-0 d-inline-block">Status:</span>
                 <label class="switch">
-                    <input type="checkbox" <?php echo ((string) $relayStatus) === '1' ? 'checked': ''?> id="relaySwitch">
+                    <input type="checkbox" <?php echo ((string) $relayStatus) === '1' ? 'checked' : '' ?> id="relaySwitch">
                     <span class="slider round"></span>
                 </label>
             </div>
         </div>
-    </div>
     </div>
     <div class="row mb-5">
         <div class="col-md-6">
@@ -103,8 +102,7 @@ $result = $stmt->get_result()->fetch_assoc() ?? [];
     </div>
 </main>
 <script>
-    const options = {
-    };
+    const options = {};
 
     const Voltage = new Chart(document.getElementById('voltageChart'), {
         type: 'line',
