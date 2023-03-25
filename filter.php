@@ -69,6 +69,9 @@ try {
                         <td><?php echo $idKompor; ?></td>
                     </tr>
                 </table>
+                <?php if ($rangeDate || $page > 1) : ?>
+                    <button class="btn btn-danger text-white" id="clearFilter">Clear Filter</button>
+                <?php endif; ?>
             </div>
             <div class="col-md-3">
                 <form action="" method="post" class="d-block mb-4">
@@ -119,50 +122,50 @@ try {
                     </tbody>
                 </table>
             </div>
-            <?php if ($total_pages > 1):?>
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item<?= ($current_page == 1) ? ' disabled' : '' ?>">
-                        <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate?>&page=<?= $current_page - 1 ?>">Previous</a>
-                    </li>
-                    <?php
-                    if ($total_pages <= 7) {
-                        for ($i = 1; $i <= $total_pages; $i++) :
-                    ?>
-                            <li class="page-item<?= ($i == $current_page) ? ' active' : '' ?>">
-                                <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate?>&page=<?= $i ?>"><?= $i ?></a>
-                            </li>
-                        <?php endfor; ?>
-                    <?php } else { ?>
-                        <?php if ($current_page > 4) : ?>
-                            <li class="page-item">
-                                <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate?>&page=1">1</a>
-                            </li>
-                            <li class="page-item disabled"><span class="page-link">...</span></li>
-                        <?php endif; ?>
+            <?php if ($total_pages > 1) : ?>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item<?= ($current_page == 1) ? ' disabled' : '' ?>">
+                            <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate ?>&page=<?= $current_page - 1 ?>">Previous</a>
+                        </li>
                         <?php
-                        $start_page = max(1, $current_page - 2);
-                        $end_page = min($start_page + 4, $total_pages);
-                        $start_page = max(1, $end_page - 4);
-                        for ($i = $start_page; $i <= $end_page; $i++) :
+                        if ($total_pages <= 7) {
+                            for ($i = 1; $i <= $total_pages; $i++) :
                         ?>
-                            <li class="page-item<?= ($i == $current_page) ? ' active' : '' ?>">
-                                <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate?>&page=<?= $i ?>"><?= $i ?></a>
-                            </li>
-                        <?php endfor; ?>
-                        <?php if ($current_page < ($total_pages - 3)) : ?>
-                            <li class="page-item disabled"><span class="page-link">...</span></li>
-                            <li class="page-item">
-                                <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate?>&page=<?= $total_pages ?>"><?= $total_pages ?></a>
-                            </li>
-                        <?php endif; ?>
-                    <?php } ?>
-                    <li class="page-item<?= ($current_page == $total_pages) ? ' disabled' : '' ?>">
-                        <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate?>&page=<?= $current_page + 1 ?>">Next</a>
-                    </li>
-                </ul>
-            </nav>
-            <?php endif;?>
+                                <li class="page-item<?= ($i == $current_page) ? ' active' : '' ?>">
+                                    <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate ?>&page=<?= $i ?>"><?= $i ?></a>
+                                </li>
+                            <?php endfor; ?>
+                        <?php } else { ?>
+                            <?php if ($current_page > 4) : ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate ?>&page=1">1</a>
+                                </li>
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            <?php endif; ?>
+                            <?php
+                            $start_page = max(1, $current_page - 2);
+                            $end_page = min($start_page + 4, $total_pages);
+                            $start_page = max(1, $end_page - 4);
+                            for ($i = $start_page; $i <= $end_page; $i++) :
+                            ?>
+                                <li class="page-item<?= ($i == $current_page) ? ' active' : '' ?>">
+                                    <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate ?>&page=<?= $i ?>"><?= $i ?></a>
+                                </li>
+                            <?php endfor; ?>
+                            <?php if ($current_page < ($total_pages - 3)) : ?>
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate ?>&page=<?= $total_pages ?>"><?= $total_pages ?></a>
+                                </li>
+                            <?php endif; ?>
+                        <?php } ?>
+                        <li class="page-item<?= ($current_page == $total_pages) ? ' disabled' : '' ?>">
+                            <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate ?>&page=<?= $current_page + 1 ?>">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            <?php endif; ?>
         </div>
     </div>
 </main>
@@ -185,6 +188,14 @@ try {
                 window.location.assign(url.toString());
             }
         });
+
+        $('#clearFilter').click(() => {
+            const urlParams = new URLSearchParams(window.location.search)
+            urlParams.delete('rangeDate');
+            urlParams.delete('page')
+            const url = new URL(window.location.origin + window.location.pathname + '?' + urlParams)
+            window.location.assign(url.toString());
+        })
     })
 </script>
 <?php
