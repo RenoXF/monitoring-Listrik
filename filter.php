@@ -2,13 +2,15 @@
 
 define('__IN_SCRIPT__', true);
 
-require_once './includes/header.php';
+require_once './helpers/base_url.php';
+require_once './includes/connection.php';
 require './helpers/get.php';
 
 $idKompor = get('ID_Kompor');
 $rangeDate = get('rangeDate');
 $page = get('page', 1);
 $per_page = 50;
+$downloadCSV = (bool) get('downloadCSV', false);
 
 if ($idKompor === null) {
     echo 'ID_Kompor harus disertakan !';
@@ -21,9 +23,9 @@ if ($rangeDate) {
     $startDate = $ranges[0] . ' 00:00:00';
     $endDate = ($ranges[1] ?? $ranges[0]) . ' 23:59:59';
 
-    $whereClause = "WHERE `Date` BETWEEN '$startDate' AND '$endDate'";
+    $whereClause = "WHERE ID_Kompor = '$idKompor' AND `Date` BETWEEN '$startDate' AND '$endDate'";
 } else {
-    $whereClause = '';
+    $whereClause = "WHERE ID_Kompor = '$idKompor'";
 }
 
 // Hitung jumlah total data
@@ -31,6 +33,10 @@ $sql = "SELECT COUNT(*) as `total` FROM `meter` $whereClause";
 $result = $mysqli->query($sql);
 $row = $result->fetch_assoc();
 $total_meters = $row['total'];
+
+if ($downloadCSV) {
+    $per_page = $total_meters;
+}
 
 // Hitung jumlah halaman
 $total_pages = ceil($total_meters / $per_page);
@@ -45,7 +51,7 @@ $offset = ($page - 1) * $per_page;
 
 try {
     // Ambil data pengguna dari database
-    $sql = "SELECT * FROM `meter` $whereClause ORDER BY `id` DESC LIMIT $per_page OFFSET $offset";
+    $sql = "SELECT * FROM `meter` $whereClause ORDER BY `id` " . ($downloadCSV ? "ASC" : "DESC") . " LIMIT $per_page OFFSET $offset";
     $result = $mysqli->query($sql);
 
     $meters = $result->fetch_all(MYSQLI_ASSOC);
@@ -55,6 +61,40 @@ try {
     exit(1);
 }
 
+if ($downloadCSV) {
+    // menentukan nama file
+    $filename = $rangeDate ? 'Laporan meter tanggal ' . $rangeDate . '.csv' : 'Laporan Meter Lengkap.csv';
+
+    // header file CSV
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename=' . $filename);
+
+    // membuka file CSV
+    $file = fopen('php://output', 'w');
+
+    // menulis header kolom
+    fputcsv($file, array('ID', 'Voltage', 'Current', 'Power', 'Energy', 'Frequency', 'PF', 'Timestamp'));
+
+    // menulis data
+    foreach ($meters as $row) {
+        fputcsv($file, [
+            $row['ID'],
+            $row['Voltage'],
+            $row['Current'],
+            $row['Power'],
+            $row['Energy'],
+            $row['Frequency'],
+            $row['PF'],
+            $row['Date'],
+        ]);
+    }
+
+    // menutup file CSV
+    fclose($file);
+    exit;
+}
+
+require_once './includes/header.php';
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
@@ -74,8 +114,10 @@ try {
                 <?php endif; ?>
             </div>
             <div class="col-md-3">
-                <form action="" method="post" class="d-block mb-4">
-                    <input type="hidden" name="downloadCSV" value="<?php echo $idKompor; ?>">
+                <form action="" method="get" class="d-block mb-4" target="_blank">
+                    <input type="hidden" name="ID_Kompor" value="<?= $idKompor; ?>">
+                    <input type="hidden" name="rangeDate" value="<?= $rangeDate;?>">
+                    <input type="hidden" name="downloadCSV" value="1">
                     <button type="submit" class="btn btn-info text-white">Download CSV</button>
                 </form>
                 <form action="" method="get">
