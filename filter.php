@@ -180,6 +180,7 @@ try {
             onClose: (selectedDates, dateStr, instance) => {
                 const urlParams = new URLSearchParams(window.location.search)
                 urlParams.set('rangeDate', dateStr);
+                urlParams.set('page', 1);
                 const url = new URL(window.location.origin + window.location.pathname + '?' + urlParams)
                 window.location.assign(url.toString());
             }
