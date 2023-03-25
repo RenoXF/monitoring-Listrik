@@ -2,10 +2,6 @@
 
 defined('__IN_SCRIPT__') || exit(1);
 
-require_once './helpers/base_url.php';
-
-require_once 'connection.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
