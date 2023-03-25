@@ -2,6 +2,8 @@
 
 define('__IN_SCRIPT__', true);
 
+require_once './helpers/base_url.php';
+require_once './includes/connection.php';
 require_once './includes/header.php';
 
 $komporSql = $mysqli->query("SELECT * FROM `meter` GROUP BY `meter`.`ID_Kompor` ORDER BY `meter`.`ID` DESC");

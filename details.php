@@ -1,7 +1,8 @@
 <?php
 define('__IN_SCRIPT__', true);
 
-require_once './includes/header.php';
+require_once './helpers/base_url.php';
+require_once './includes/connection.php';
 require './helpers/get.php';
 
 $idKompor = get('ID_Kompor');
@@ -48,6 +49,7 @@ $stmt->execute([$idKompor]);
 
 $result = $stmt->get_result()->fetch_assoc() ?? [];
 
+require_once './includes/header.php';
 ?>
 <main class="container">
     <div class="mb-5">
