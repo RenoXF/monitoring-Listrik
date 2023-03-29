@@ -10,7 +10,7 @@ defined('__IN_SCRIPT__') || exit(1);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitoring Kompor</title>
+    <title>Monitoring Kompor Induksi</title>
 
     <!-- Bootstrap style -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -88,7 +88,7 @@ defined('__IN_SCRIPT__') || exit(1);
     <header class="mb-4">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom border-info">
             <div class="container-fluid">
-                <a class="navbar-brand" href="<?php echo base_url(); ?>">Monitoring PLN</a>
+                <a class="navbar-brand" href="<?php echo base_url(); ?>">Monitoring Kompor Induksi</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -102,7 +102,7 @@ defined('__IN_SCRIPT__') || exit(1);
                             <span id="time"></span>
                         </div>
                         <div class="">
-                            <img src="./assets/img/Logo_PLN.svg" alt="Logo PLN" srcset="" height="40px">
+                            <img src="./assets/img/Logo_PLN.svg" alt="Logo PLN" srcset="" height="30px" class="pt-2">
                         </div>
                     </form>
                 </div>
