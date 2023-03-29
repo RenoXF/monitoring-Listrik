@@ -52,10 +52,10 @@ $result = $stmt->get_result()->fetch_assoc() ?? [];
 require_once './includes/header.php';
 ?>
 <main class="container">
-    <div class="mb-5">
-        <div class="d-flex justify-content-evenly align-items-center">
+<div class="mb-5">
+        <div class="d-flex justify-content-between align-items-center">
             <div class="align-middle">
-                <table class="table table-borderless">
+            <table class="table table-borderless">
                     <tr>
                         <td>ID Kompor</td>
                         <td>:</td>
@@ -64,17 +64,24 @@ require_once './includes/header.php';
                     <tr>
                         <td>Stan</td>
                         <td>:</td>
-                        <td><?php echo '-' ?></td>
+                        <td><?php echo $result['Energy'] ?> KWh</td>
                     </tr>
                 </table>
-                <a href="filter.php?ID_Kompor=<?php echo $result['ID_Kompor'] ?>" class="btn btn-info text-white" role="button">Filter by Date</a>
+                <a href="filter.php?ID_Kompor=<?php echo $result['ID_Kompor'] ?>" class="btn btn-info text-white" role="button">Device Database</a>
             </div>
-            <div class="d-flex align-items-center">
+            <div class="col-md-3">
+                <form action="" method="get" class="d-block mb-4" target="_blank">
                 <span class="mx-2 form-label my-0 d-inline-block">Status:</span>
                 <label class="switch">
                     <input type="checkbox" <?php echo ((string) $relayStatus) === '1' ? 'checked' : '' ?> id="relaySwitch">
                     <span class="slider round"></span>
                 </label>
+                </form>
+                <form action="" method="get">
+                    <div class="mb-3">
+                        <input type="string" name="rangeDate" id="rangeDate" class="form-control" placeholder="Filter by Date" value="<?php echo $rangeDate ?>">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -236,9 +243,9 @@ require_once './includes/header.php';
     var delay = 30000 - (now.getSeconds() * 1000) - now.getMilliseconds();
     setTimeout(function() {
         getAllData();
-        setInterval(function() {
-            getAllData()
-        }, 30000);
+        // setInterval(function() {
+        //     getAllData()
+        // }, 30000);
     }, delay);
 </script>
 <?php require_once './includes/footer.php';
