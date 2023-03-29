@@ -136,7 +136,7 @@ require_once './includes/header.php';
                             <th class="text-center"><strong>#</strong></th>
                             <th>Voltage (V)</th>
                             <th>Current (A)</th>
-                            <th>Power</th>
+                            <th>Power (W)</th>
                             <th>Energy (KWh)</th>
                             <th>Frequency (Hz)</th>
                             <th>PF</th>

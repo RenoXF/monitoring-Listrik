@@ -20,7 +20,7 @@ $kompor = $komporSql->fetch_all(MYSQLI_ASSOC);
                         <th class="text-center"><strong>ID Kompor</strong></th>
                             <th>Voltage (V)</th>
                             <th>Current (A)</th>
-                            <th>Power</th>
+                            <th>Power (W)</th>
                             <th>Energy (KWh)</th>
                             <th>Frequency (Hz)</th>
                             <th>PF</th>
