@@ -8,6 +8,7 @@ require './helpers/get.php';
 
 $idKompor = get('ID_Kompor');
 $type = get('type');
+$rangeDate = get('rangeDate');
 
 if ($idKompor === null) {
     header("HTTP/1.1 500 Server Internal Error");
@@ -37,18 +38,36 @@ if (in_array($type, [
 }
 
 try {
-    $stmt = $mysqli->prepare("SELECT
-        `$type`,
-        `Date`
-        FROM
-            `meter`
-        WHERE
-            `ID_Kompor` = ?
-        ORDER BY `id` DESC LIMIT 15");
 
-    $stmt->execute([$idKompor]);
+    // Apabila Range data ada
+    if ($rangeDate !== null) {
+        $ranges = $rangeDate;
+        $month = date('Y-m', strtotime($ranges . '-01 00:00:00'));
 
-    $results = $stmt->get_result()->fetch_all(MYSQLI_ASSOC) ?? [];
+        $whereClause = "WHERE ID_Kompor = '$idKompor' AND `Date` BETWEEN '$startDate' AND '$endDate'";
+    } else {
+        $whereClause = "WHERE ID_Kompor = '$idKompor'";
+    }
+
+    try {
+        $stmt = $mysqli->prepare("SELECT
+                AVG(`$type`) as `{$type}`,
+                `Date`
+            FROM
+                `meter`
+            WHERE
+                `ID_Kompor` = ?
+            GROUP BY DATE(`Date`)
+            ORDER BY `id` DESC");
+
+        $stmt->execute([$idKompor]);
+
+        $results = $stmt->get_result()->fetch_all(MYSQLI_ASSOC) ?? [];
+    } catch (\Throwable $th) {
+        echo $th->getCode() . ' - ' . $th->getMessage();
+        exit(1);
+    }
+
 
     $results = array_reverse($results);
 
@@ -61,7 +80,7 @@ try {
         );
         array_push(
             $keys,
-            date('H:i', strtotime($result['Date']))
+            date($rangeDate !== null ? 'd' : 'H:i', strtotime($result['Date']))
         );
     };
 
