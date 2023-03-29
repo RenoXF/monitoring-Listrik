@@ -51,7 +51,7 @@ $offset = ($page - 1) * $per_page;
 
 try {
     // Ambil data pengguna dari database
-    $sql = "SELECT * FROM `meter` $whereClause ORDER BY `id` " . ($downloadCSV ? "ASC" : "DESC") . " LIMIT $per_page OFFSET $offset";
+    $sql = "SELECT * FROM `meter` $whereClause ORDER BY `id` " . ($downloadCSV || ($rangeDate !== null) ? "ASC" : "DESC") . " LIMIT $per_page OFFSET $offset";
     $result = $mysqli->query($sql);
 
     $meters = $result->fetch_all(MYSQLI_ASSOC);
@@ -73,12 +73,11 @@ if ($downloadCSV) {
     $file = fopen('php://output', 'w');
 
     // menulis header kolom
-    fputcsv($file, array('ID', 'Voltage', 'Current', 'Power', 'Energy', 'Frequency', 'PF', 'Timestamp'));
+    fputcsv($file, array('Voltage', 'Current', 'Power', 'Energy', 'Frequency', 'PF', 'Timestamp'));
 
     // menulis data
     foreach ($meters as $row) {
         fputcsv($file, [
-            $row['ID'],
             $row['Voltage'],
             $row['Current'],
             $row['Power'],
@@ -135,11 +134,11 @@ require_once './includes/header.php';
                     <thead class="text-center">
                         <tr>
                             <th class="text-center"><strong>#</strong></th>
-                            <th>Voltage</th>
-                            <th>Current</th>
+                            <th>Voltage (V)</th>
+                            <th>Current (A)</th>
                             <th>Power</th>
-                            <th>Energy</th>
-                            <th>Frequency</th>
+                            <th>Energy (KWh)</th>
+                            <th>Frequency (Hz)</th>
                             <th>PF</th>
                             <th>Timestamp</th>
                         </tr>
