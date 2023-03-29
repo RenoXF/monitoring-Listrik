@@ -58,7 +58,7 @@ try {
             WHERE
                 `ID_Kompor` = ?
             " . ($rangeDate !== null ? " GROUP BY DATE(`Date`)" : " ") . "
-            ORDER BY `id` DESC");
+            ORDER BY `id` DESC " . $rangeDate !== null ? "" : "LIMIT 15");
 
         $stmt->execute([$idKompor]);
 
