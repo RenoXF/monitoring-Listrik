@@ -6,6 +6,7 @@ require_once './includes/connection.php';
 require './helpers/get.php';
 
 $idKompor = get('ID_Kompor');
+$rangeDate = get('rangeDate');
 
 if ($idKompor === null) {
     echo 'ID_Kompor harus disertakan !';
@@ -51,8 +52,11 @@ $result = $stmt->get_result()->fetch_assoc() ?? [];
 
 require_once './includes/header.php';
 ?>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
 <main class="container">
-<div class="mb-5">
+    <div class="mb-5">
         <div class="d-flex justify-content-between align-items-center">
             <div class="align-middle">
             <table class="table table-borderless">
@@ -79,12 +83,21 @@ require_once './includes/header.php';
                 </form>
                 <form action="" method="get">
                     <div class="mb-3">
-                        <input type="string" name="rangeDate" id="rangeDate" class="form-control" placeholder="Filter by Date" value="<?php echo $rangeDate ?>">
+                        <input type="text" name="rangeDate" id="rangeDate" class="form-control" placeholder="Filter by Date" value="<?php echo $rangeDate ?>">
                     </div>
                 </form>
+                <?php if ($rangeDate ) : ?>
+                    <button class="btn btn-danger text-white" id="clearFilter">Clear Filter</button>
+                <?php endif; ?>
             </div>
         </div>
     </div>
+    <?php if ($rangeDate): ?>
+    <div class="mb-5">
+        <h2>Menampilkan data dari tanggal <?= $rangeDate?></h2>
+    </div>
+
+    <?php endif;?>
     <div class="row mb-5">
         <div class="col-md-6">
             <canvas id="voltageChart" height="150px"></canvas>
@@ -110,6 +123,41 @@ require_once './includes/header.php';
         </div>
     </div>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+<script>
+    $(document).ready(() => {
+        $('#rangeDate').flatpickr({
+            locale: 'id',
+            altInput: true,
+            // dateFormat: "Y-m-d",
+            // altFormat: "j F Y",
+            plugins: [
+                new monthSelectPlugin({
+                    shorthand: true, //defaults to false
+                    dateFormat: "Y-m", //defaults to "F Y"
+                    altFormat: "F Y", //defaults to "F Y"
+                })
+            ],
+            onClose: (selectedDates, dateStr, instance) => {
+                const urlParams = new URLSearchParams(window.location.search)
+                urlParams.set('rangeDate', dateStr);
+                urlParams.set('page', 1);
+                const url = new URL(window.location.origin + window.location.pathname + '?' + urlParams)
+                window.location.assign(url.toString());
+            }
+        });
+
+        $('#clearFilter').click(() => {
+            const urlParams = new URLSearchParams(window.location.search)
+            urlParams.delete('rangeDate');
+            urlParams.delete('page')
+            const url = new URL(window.location.origin + window.location.pathname + '?' + urlParams)
+            window.location.assign(url.toString());
+        })
+    })
+</script>
 <script>
     const options = {};
 
@@ -149,7 +197,8 @@ require_once './includes/header.php';
             url: 'ajax.php',
             data: {
                 ID_Kompor: '<?php echo $idKompor; ?>',
-                type: type
+                type: type,
+                rangeDate: "<?= $rangeDate;?>"
             },
             dataType: "json",
             success: function(res, textStatus, jqXHR) {
@@ -239,13 +288,13 @@ require_once './includes/header.php';
         })
     })
 
-    var now = new Date();
-    var delay = 30000 - (now.getSeconds() * 1000) - now.getMilliseconds();
-    setTimeout(function() {
-        getAllData();
-        // setInterval(function() {
-        //     getAllData()
-        // }, 30000);
-    }, delay);
+    // var now = new Date();
+    // var delay = 30000 - (now.getSeconds() * 1000) - now.getMilliseconds();
+    // setTimeout(function() {
+    //     getAllData();
+    //     // setInterval(function() {
+    //     //     getAllData()
+    //     // }, 30000);
+    // }, delay);
 </script>
 <?php require_once './includes/footer.php';
