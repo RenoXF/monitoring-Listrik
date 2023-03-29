@@ -17,14 +17,14 @@ $kompor = $komporSql->fetch_all(MYSQLI_ASSOC);
                 <table class="table table-bordered table-hover table-stripped align-middle">
                     <thead class="text-center">
                         <tr>
-                            <th>ID Kompor</th>
-                            <th>Voltage</th>
-                            <th>Current</th>
+                        <th class="text-center"><strong>ID Kompor</strong></th>
+                            <th>Voltage (V)</th>
+                            <th>Current (A)</th>
                             <th>Power</th>
-                            <th>Energy</th>
-                            <th>Frequency</th>
+                            <th>Energy (KWh)</th>
+                            <th>Frequency (Hz)</th>
                             <th>PF</th>
-                            <th>Last Active</th>
+                            <th>Timestamp</th>
                         </tr>
                     </thead>
                     <tbody>
