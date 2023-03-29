@@ -57,7 +57,7 @@ try {
                 `meter`
             WHERE
                 `ID_Kompor` = ?
-            " . $rangeDate !== null ? "GROUP BY DATE(`Date`)" : "" . "
+            " . ($rangeDate !== null ? " GROUP BY DATE(`Date`)" : " ") . "
             ORDER BY `id` DESC");
 
         $stmt->execute([$idKompor]);
