@@ -211,43 +211,49 @@ require_once './includes/header.php';
                         backgroundColor = '#5145A7'
                         borderColor = '#5145A7'
                         color = '#5145A7'
+                        label = type + ' (V)'
                         break;
 
                     case 'Current':
                         backgroundColor = '#3DAF63'
                         borderColor = '#3DAF63'
                         color = '#3DAF63'
+                        label = type + ' (A)'
                         break;
 
                     case 'Power':
                         backgroundColor = '#FE9008'
                         borderColor = '#FE9008'
                         color = '#FE9008'
+                        label = type + ' (W)'
                         break;
 
                     case 'PF':
                         backgroundColor = '#8A5487'
                         borderColor = '#8A5487'
                         color = '#8A5487'
+                        label = type
                         break;
 
                     case 'Energy':
                         backgroundColor = '#3549D1'
                         borderColor = '#3549D1'
                         color = '#3549D1'
+                        label = type + ' (KWh)'
                         break;
 
                     case 'Frequency':
                         backgroundColor = '#25AD92'
                         borderColor = '#25AD92'
                         color = '#25AD92'
+                        label = type + ' (Hz)'
                         break;
                 }
 
                 chart.data = {
                     labels: res.keys,
                     datasets: [{
-                        label: type,
+                        label: label,
                         data: res.values,
                         borderWidth: 1,
                         fill: false,
