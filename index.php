@@ -1,57 +1,32 @@
 <?php
 
-define('__IN_SCRIPT__', true);
-
-require_once './helpers/base_url.php';
-require_once './includes/connection.php';
-require_once './includes/header.php';
-
-$komporSql = $mysqli->query("SELECT * FROM `meter` GROUP BY `meter`.`ID_Kompor` ORDER BY `meter`.`ID` DESC");
-
-$kompor = $komporSql->fetch_all(MYSQLI_ASSOC);
 ?>
-<main class="container">
-    <div class="row">
-        <div class="col-12">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover table-stripped align-middle">
-                    <thead class="text-center">
-                        <tr>
-                        <th class="text-center"><strong>ID Kompor</strong></th>
-                            <th>Voltage (V)</th>
-                            <th>Current (A)</th>
-                            <th>Power (W)</th>
-                            <th>Energy (KWh)</th>
-                            <th>Frequency (Hz)</th>
-                            <th>PF</th>
-                            <th>Timestamp</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($kompor as $item) { ?>
-                        <tr>
-                            <td>
-                                <a href="details.php?ID_Kompor=<?php echo $item['ID_Kompor'];?>"><?php echo $item['ID_Kompor'];?></a>
-                            </td>
-                            <td>
-                            <?php echo $item['Voltage'];?>
-                            </td>
-                            <td><?php echo $item['Current'];?></td>
-                            <td><?php echo $item['Power'];?></td>
-                            <td><?php echo $item['Energy'];?></td>
-                            <td><?php echo $item['Frequency'];?></td>
-                            <td><?php echo $item['PF'];?></td>
-                            <td class="text-end">
-                            <?php echo $item['Date'];?>
-                            </td>
-                        </tr>
-                        <?php }?>
-                    </tbody>
-                </table>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/1ab94d0eba.js" crossorigin="anonymous"></script>
+    <title>Login Monitoring Kompor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+        <h2>Login</h2>
+        <form action="login_check.php" method="post">
+            <div class="input-field">
+                <input class="input" type="text" name="username" placeholder="user@example.com" autocomplete="username">
+                <div class="underline"></div>
             </div>
-        </div>
-    </div>
-</main><?php
+            <div class="input-field">
+                <input class="input" type="password" name="password" placeholder="Password" autocomplete="current-password">
+                <div class="underline"></div>
+            </div>
 
-require_once './includes/footer.php'
-?>
+            <button type="submit">
+                Login
+              </button>
+        </form>
+    </main>
+</body>
+</html>

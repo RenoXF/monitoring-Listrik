@@ -5,6 +5,20 @@ require_once './helpers/base_url.php';
 require_once './includes/connection.php';
 require './helpers/get.php';
 
+session_start();
+
+if (!isset($_SESSION["username"])) {
+  echo "Anda harus login dulu <br><a href='index.php'>Klik disini</a>";
+  exit;
+}
+
+$level=$_SESSION["level"];
+
+if ($level!="user") {
+    echo "Anda tidak punya akses pada halaman user";
+    exit;
+}
+
 $idKompor = get('ID_Kompor');
 $rangeDate = get('rangeDate');
 
