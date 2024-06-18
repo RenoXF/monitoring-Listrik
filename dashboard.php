@@ -20,9 +20,9 @@ if ($level!="admin") {
     exit;
 }
 
-$komporSql = $mysqli->query("SELECT * FROM `meter` GROUP BY `meter`.`ID_Kompor` ORDER BY `meter`.`ID` DESC");
+$ListrikSql = $mysqli->query("SELECT * FROM `meter` GROUP BY `meter`.`ID_Listrik` ORDER BY `meter`.`ID` DESC");
 
-$kompor = $komporSql->fetch_all(MYSQLI_ASSOC);
+$Listrik = $ListrikSql->fetch_all(MYSQLI_ASSOC);
 ?>
 <main class="container">
     <div class="row">
@@ -31,7 +31,7 @@ $kompor = $komporSql->fetch_all(MYSQLI_ASSOC);
                 <table class="table table-bordered table-hover table-stripped align-middle">
                     <thead class="text-center">
                         <tr>
-                        <th class="text-center"><strong>ID Kompor</strong></th>
+                        <th class="text-center"><strong>ID Listrik</strong></th>
                             <th>Voltage (V)</th>
                             <th>Current (A)</th>
                             <th>Power (W)</th>
@@ -42,10 +42,10 @@ $kompor = $komporSql->fetch_all(MYSQLI_ASSOC);
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($kompor as $item) { ?>
+                        <?php foreach ($Listrik as $item) { ?>
                         <tr>
                             <td>
-                                <a href="details.php?ID_Kompor=<?php echo $item['ID_Kompor'];?>"><?php echo $item['ID_Kompor'];?></a>
+                                <a href="details.php?ID_Listrik=<?php echo $item['ID_Listrik'];?>"><?php echo $item['ID_Listrik'];?></a>
                             </td>
                             <td>
                             <?php echo $item['Voltage'];?>

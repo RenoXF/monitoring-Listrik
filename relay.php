@@ -5,15 +5,15 @@ define('__IN_SCRIPT__', true);
 require './includes/connection.php';
 require './helpers/get.php';
 
-$idKompor = get('ID_Kompor');
+$idListrik = get('ID_Listrik');
 
-if (isset($_POST['status']) && isset($_POST['ID_Kompor'])) {
+if (isset($_POST['status']) && isset($_POST['ID_Listrik'])) {
     header("Content-Type: application/json");
 
     try {
-        $stmt = $mysqli->prepare("REPLACE INTO `statusrelay` (`ID_Kompor`, `Stat`) VALUES (?, ?)");
+        $stmt = $mysqli->prepare("REPLACE INTO `statusrelay` (`ID_Listrik`, `Stat`) VALUES (?, ?)");
         $stmt->execute([
-            $_POST['ID_Kompor'],
+            $_POST['ID_Listrik'],
             $_POST['status'],
         ]);
 
@@ -30,7 +30,7 @@ if (isset($_POST['status']) && isset($_POST['ID_Kompor'])) {
     exit(0);
 }
 
-if ($idKompor === null) {
+if ($idListrik === null) {
     exit(0);
 }
 
@@ -41,16 +41,16 @@ try {
     FROM
         `statusrelay`
     WHERE
-        `ID_Kompor` = ?
+        `ID_Listrik` = ?
     ORDER BY `id` DESC LIMIT 1");
 
-    $stmt->execute([$idKompor]);
+    $stmt->execute([$idListrik]);
 
     $result = $stmt->get_result()->fetch_assoc() ?? [];
 
     if (empty($result)) {
-        $relayStmt = $mysqli->prepare("INSERT INTO `statusrelay` (`ID_Kompor`, `Stat`) VALUES (?, ?)");
-        $relayStmt->execute([$idKompor, 1]);
+        $relayStmt = $mysqli->prepare("INSERT INTO `statusrelay` (`ID_Listrik`, `Stat`) VALUES (?, ?)");
+        $relayStmt->execute([$idListrik, 1]);
         echo '1';
         exit(0);
     }

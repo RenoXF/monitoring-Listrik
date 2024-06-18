@@ -19,11 +19,11 @@ if ($level!="user") {
     exit;
 }
 
-$idKompor = get('ID_Kompor');
+$idListrik = get('ID_Listrik');
 $rangeDate = get('rangeDate');
 
-if ($idKompor === null) {
-    echo 'ID_Kompor harus disertakan !';
+if ($idListrik === null) {
+    echo 'ID_Listrik harus disertakan !';
     exit(0);
 }
 
@@ -33,18 +33,18 @@ try {
     FROM
         `statusrelay`
     WHERE
-        `ID_Kompor` = ?
+        `ID_Listrik` = ?
     ORDER BY `id` DESC LIMIT 1");
 
-    $stmt->execute([$idKompor]);
+    $stmt->execute([$idListrik]);
 
     $result = $stmt->get_result()->fetch_assoc() ?? [];
     $relayStatus = $result['Stat'] ?? null;
 
     if (empty($result) || $relayStatus === null) {
         $relayStatus = '1';
-        $relayStmt = $mysqli->prepare("INSERT INTO `statusrelay` (`ID_Kompor`, `Stat`) VALUES (?, ?)");
-        $relayStmt->execute([$idKompor, $relayStatus]);
+        $relayStmt = $mysqli->prepare("INSERT INTO `statusrelay` (`ID_Listrik`, `Stat`) VALUES (?, ?)");
+        $relayStmt->execute([$idListrik, $relayStatus]);
     }
 } catch (\Throwable $th) {
     $th->getMessage();
@@ -57,10 +57,10 @@ $stmt = $mysqli->prepare("SELECT
     FROM
         `meter`
     WHERE
-        `ID_Kompor` = ?
+        `ID_Listrik` = ?
     ORDER BY `id` DESC LIMIT 1");
 
-$stmt->execute([$idKompor]);
+$stmt->execute([$idListrik]);
 
 $result = $stmt->get_result()->fetch_assoc() ?? [];
 
@@ -75,9 +75,9 @@ require_once './includes/header.php';
             <div class="align-middle">
             <table class="table table-borderless">
                     <tr>
-                        <td>ID Kompor</td>
+                        <td>ID Listrik</td>
                         <td>:</td>
-                        <td><?php echo $result['ID_Kompor'] ?></td>
+                        <td><?php echo $result['ID_Listrik'] ?></td>
                     </tr>
                     <tr>
                         <td>Stan</td>
@@ -85,7 +85,7 @@ require_once './includes/header.php';
                         <td><?php echo $result['Energy'] ?> KWh</td>
                     </tr>
                 </table>
-                <a href="filter.php?ID_Kompor=<?php echo $result['ID_Kompor'] ?>" class="btn btn-info text-white" role="button">Device Database</a>
+                <a href="filter.php?ID_Listrik=<?php echo $result['ID_Listrik'] ?>" class="btn btn-info text-white" role="button">Device Database</a>
             </div>
             <div class="col-md-3">
                 <form action="" method="get" class="d-block mb-4" target="_blank">
@@ -210,7 +210,7 @@ require_once './includes/header.php';
         $.ajax({
             url: 'ajax.php',
             data: {
-                ID_Kompor: '<?php echo $idKompor; ?>',
+                ID_Listrik: '<?php echo $idListrik; ?>',
                 type: type,
                 rangeDate: "<?= $rangeDate;?>"
             },
@@ -302,7 +302,7 @@ require_once './includes/header.php';
                 method: 'post',
                 data: {
                     status: status,
-                    ID_Kompor: '<?php echo $idKompor; ?>',
+                    ID_Listrik: '<?php echo $idListrik; ?>',
                 }
             })
         })

@@ -6,16 +6,16 @@ define('__IN_SCRIPT__', true);
 require './includes/connection.php';
 require './helpers/get.php';
 
-$idKompor = get('ID_Kompor');
+$idListrik = get('ID_Listrik');
 $type = get('type');
 $rangeDate = get('rangeDate');
 
-if ($idKompor === null) {
+if ($idListrik === null) {
     header("HTTP/1.1 500 Server Internal Error");
     echo json_encode([
         'status' => false,
         'code' => 500,
-        'message' => 'Parameter ID_Kompor is required'
+        'message' => 'Parameter ID_Listrik is required'
     ]);
     exit(1);
 }
@@ -44,9 +44,9 @@ try {
         $ranges = $rangeDate;
         $month = date('Y-m', strtotime($ranges . '-01 00:00:00'));
 
-        $whereClause = "WHERE ID_Kompor = '$idKompor' AND `Date` BETWEEN '$startDate' AND '$endDate'";
+        $whereClause = "WHERE ID_Listrik = '$idListrik' AND `Date` BETWEEN '$startDate' AND '$endDate'";
     } else {
-        $whereClause = "WHERE ID_Kompor = '$idKompor'";
+        $whereClause = "WHERE ID_Listrik = '$idListrik'";
     }
 
     try {
@@ -56,11 +56,11 @@ try {
             FROM
                 `meter`
             WHERE
-                `ID_Kompor` = ?
+                `ID_Listrik` = ?
             " . ($rangeDate !== null ? " GROUP BY DATE(`Date`)" : " ") . "
             ORDER BY `id` DESC " . ($rangeDate !== null ? "" : "LIMIT 15"));
 
-        $stmt->execute([$idKompor]);
+        $stmt->execute([$idListrik]);
 
         $results = $stmt->get_result()->fetch_all(MYSQLI_ASSOC) ?? [];
     } catch (\Throwable $th) {

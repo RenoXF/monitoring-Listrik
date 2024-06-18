@@ -6,14 +6,14 @@ require_once './helpers/base_url.php';
 require_once './includes/connection.php';
 require './helpers/get.php';
 
-$idKompor = get('ID_Kompor');
+$idListrik = get('ID_Listrik');
 $rangeDate = get('rangeDate');
 $page = get('page', 1);
 $per_page = 50;
 $downloadCSV = (bool) get('downloadCSV', false);
 
-if ($idKompor === null) {
-    echo 'ID_Kompor harus disertakan !';
+if ($idListrik === null) {
+    echo 'ID_Listrik harus disertakan !';
     exit(0);
 }
 
@@ -23,9 +23,9 @@ if ($rangeDate) {
     $startDate = $ranges[0] . ' 00:00:00';
     $endDate = ($ranges[1] ?? $ranges[0]) . ' 23:59:59';
 
-    $whereClause = "WHERE ID_Kompor = '$idKompor' AND `Date` BETWEEN '$startDate' AND '$endDate'";
+    $whereClause = "WHERE ID_Listrik = '$idListrik' AND `Date` BETWEEN '$startDate' AND '$endDate'";
 } else {
-    $whereClause = "WHERE ID_Kompor = '$idKompor'";
+    $whereClause = "WHERE ID_Listrik = '$idListrik'";
 }
 
 // Hitung jumlah total data
@@ -103,9 +103,9 @@ require_once './includes/header.php';
             <div class="align-middle">
                 <table class="table table-borderless">
                     <tr>
-                        <td>ID Kompor</td>
+                        <td>ID Listrik</td>
                         <td>:</td>
-                        <td><?php echo $idKompor; ?></td>
+                        <td><?php echo $idListrik; ?></td>
                     </tr>
                 </table>
                 <?php if ($rangeDate || $page > 1) : ?>
@@ -114,7 +114,7 @@ require_once './includes/header.php';
             </div>
             <div class="col-md-3">
                 <form action="" method="get" class="d-block mb-4" target="_blank">
-                    <input type="hidden" name="ID_Kompor" value="<?= $idKompor; ?>">
+                    <input type="hidden" name="ID_Listrik" value="<?= $idListrik; ?>">
                     <input type="hidden" name="rangeDate" value="<?= $rangeDate;?>">
                     <input type="hidden" name="downloadCSV" value="1">
                     <button type="submit" class="btn btn-info text-white">Download CSV</button>
@@ -167,20 +167,20 @@ require_once './includes/header.php';
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
                         <li class="page-item<?= ($current_page == 1) ? ' disabled' : '' ?>">
-                            <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate ?>&page=<?= $current_page - 1 ?>">Previous</a>
+                            <a class="page-link" href="?ID_Listrik=<?= $idListrik ?>&rangeDate=<?= $rangeDate ?>&page=<?= $current_page - 1 ?>">Previous</a>
                         </li>
                         <?php
                         if ($total_pages <= 7) {
                             for ($i = 1; $i <= $total_pages; $i++) :
                         ?>
                                 <li class="page-item<?= ($i == $current_page) ? ' active' : '' ?>">
-                                    <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate ?>&page=<?= $i ?>"><?= $i ?></a>
+                                    <a class="page-link" href="?ID_Listrik=<?= $idListrik ?>&rangeDate=<?= $rangeDate ?>&page=<?= $i ?>"><?= $i ?></a>
                                 </li>
                             <?php endfor; ?>
                         <?php } else { ?>
                             <?php if ($current_page > 4) : ?>
                                 <li class="page-item">
-                                    <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate ?>&page=1">1</a>
+                                    <a class="page-link" href="?ID_Listrik=<?= $idListrik ?>&rangeDate=<?= $rangeDate ?>&page=1">1</a>
                                 </li>
                                 <li class="page-item disabled"><span class="page-link">...</span></li>
                             <?php endif; ?>
@@ -191,18 +191,18 @@ require_once './includes/header.php';
                             for ($i = $start_page; $i <= $end_page; $i++) :
                             ?>
                                 <li class="page-item<?= ($i == $current_page) ? ' active' : '' ?>">
-                                    <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate ?>&page=<?= $i ?>"><?= $i ?></a>
+                                    <a class="page-link" href="?ID_Listrik=<?= $idListrik ?>&rangeDate=<?= $rangeDate ?>&page=<?= $i ?>"><?= $i ?></a>
                                 </li>
                             <?php endfor; ?>
                             <?php if ($current_page < ($total_pages - 3)) : ?>
                                 <li class="page-item disabled"><span class="page-link">...</span></li>
                                 <li class="page-item">
-                                    <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate ?>&page=<?= $total_pages ?>"><?= $total_pages ?></a>
+                                    <a class="page-link" href="?ID_Listrik=<?= $idListrik ?>&rangeDate=<?= $rangeDate ?>&page=<?= $total_pages ?>"><?= $total_pages ?></a>
                                 </li>
                             <?php endif; ?>
                         <?php } ?>
                         <li class="page-item<?= ($current_page == $total_pages) ? ' disabled' : '' ?>">
-                            <a class="page-link" href="?ID_Kompor=<?= $idKompor ?>&rangeDate=<?= $rangeDate ?>&page=<?= $current_page + 1 ?>">Next</a>
+                            <a class="page-link" href="?ID_Listrik=<?= $idListrik ?>&rangeDate=<?= $rangeDate ?>&page=<?= $current_page + 1 ?>">Next</a>
                         </li>
                     </ul>
                 </nav>
